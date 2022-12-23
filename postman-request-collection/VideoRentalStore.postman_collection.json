@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "23142143-daed-4f4b-9ffc-fe08025629a7",
+		"name": "VideoRentalStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25023238"
+	},
+	"item": [
+		{
+			"name": "Get Inventory",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/films",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Film to Inventory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"New film 1\",\r\n    \"type\": \"NEW\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/films",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rent Films",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"The Green Mile\",\r\n        \"amountOfDays\": \"10\"\r\n    },\r\n    {\r\n        \"name\": \"Interstellar\",\r\n        \"amountOfDays\": \"5\"\r\n    },\r\n    {\r\n        \"name\": \"Black Panther Wakanda Forever\",\r\n        \"amountOfDays\": \"4\"\r\n    },\r\n    {\r\n        \"name\": \"Harry Potter 4\",\r\n        \"amountOfDays\": \"3\"\r\n    },\r\n    {\r\n        \"name\": \"Guardians of the Galaxy: Holiday Special\",\r\n        \"amountOfDays\": \"2\"\r\n    },\r\n    {\r\n        \"name\": \"One Way\",\r\n        \"amountOfDays\": \"3\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/rent",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rent"
+					]
+				},
+				"description": "StartFragment\n\nThe Green Mile - 30 + 5 \\* 30\n\nInterstellar - 5 \\* 40\n\nBlack Panther Wakanda Forever - 4\\* 40\n\nHarry Potter 4 = 30\n\nGuardians of the Galaxy: Holiday Special = 2 \\* 40\n\nOne Way = 3 \\* 40\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Calculate Film price",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"The Green Mile\",\r\n        \"amountOfDays\": \"4\"\r\n    },\r\n    {\r\n        \"name\": \"Interstellar\",\r\n        \"amountOfDays\": \"1\"\r\n    },\r\n    {\r\n        \"name\": \"Black Panther Wakanda Forever\",\r\n        \"amountOfDays\": \"4\"\r\n    },\r\n    {\r\n        \"name\": \"Harry Potter 4\",\r\n        \"amountOfDays\": \"3\"\r\n    },\r\n    {\r\n        \"name\": \"Guardians of the Galaxy: Holiday Special\",\r\n        \"amountOfDays\": \"2\"\r\n    },\r\n    {\r\n        \"name\": \"One Way\",\r\n        \"amountOfDays\": \"3\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/rent/price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rent",
+						"price"
+					]
+				},
+				"description": "StartFragment\n\nThe Green Mile - 30 + 5 \\* 30\n\nInterstellar - 5 \\* 40\n\nBlack Panther Wakanda Forever - 4\\* 40\n\nHarry Potter 4 = 30\n\nGuardians of the Galaxy: Holiday Special = 2 \\* 40\n\nOne Way = 3 \\* 40\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Return Films",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": 434839191,\r\n    \"films\": [\r\n        {\r\n            \"name\": \"The Green Mile\",\r\n            \"exceededDaysOfUse\": \"4\"\r\n        },\r\n        {\r\n            \"name\": \"Interstellar\",\r\n            \"exceededDaysOfUse\": \"1\"\r\n        },\r\n        {\r\n            \"name\": \"Black Panther Wakanda Forever\",\r\n            \"exceededDaysOfUse\": \"2\"\r\n        },\r\n        {\r\n            \"name\": \"Harry Potter 4\",\r\n            \"exceededDaysOfUse\": \"0\"\r\n        },\r\n        {\r\n            \"name\": \"Guardians of the Galaxy: Holiday Special\",\r\n            \"exceededDaysOfUse\": \"0\"\r\n        },\r\n        {\r\n            \"name\": \"One Way\",\r\n            \"exceededDaysOfUse\": \"1\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/rent/return",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rent",
+						"return"
+					]
+				},
+				"description": "StartFragment\n\nThe Green Mile - 30 + 5 \\* 30\n\nInterstellar - 5 \\* 40\n\nBlack Panther Wakanda Forever - 4\\* 40\n\nHarry Potter 4 = 30\n\nGuardians of the Galaxy: Holiday Special = 2 \\* 40\n\nOne Way = 3 \\* 40\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Return Films Old",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"name\": \"The Green Mile\",\r\n        \"exceededDaysOfUse\": \"1\"\r\n    },\r\n    {\r\n        \"name\": \"Interstellar\",\r\n        \"exceededDaysOfUse\": \"3\"\r\n    },\r\n    {\r\n        \"name\": \"Harry Potter 4\",\r\n        \"exceededDaysOfUse\": \"0\"\r\n    },\r\n    {\r\n        \"name\": \"Guardians of the Galaxy: Holiday Special\",\r\n        \"exceededDaysOfUse\": \"0\"\r\n    },\r\n    {\r\n        \"name\": \"One Way\",\r\n        \"exceededDaysOfUse\": \"1\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/rent/return/old",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rent",
+						"return",
+						"old"
+					]
+				},
+				"description": "StartFragment\n\nThe Green Mile - 30 + 5 \\* 30\n\nInterstellar - 5 \\* 40\n\nBlack Panther Wakanda Forever - 4\\* 40\n\nHarry Potter 4 = 30\n\nGuardians of the Galaxy: Holiday Special = 2 \\* 40\n\nOne Way = 3 \\* 40\n\nEndFragment"
+			},
+			"response": []
+		}
+	]
+}

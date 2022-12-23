@@ -26,7 +26,7 @@ public class RentRepositoryImpl implements RentRepository {
         return ORDERS.stream()
                 .filter(order -> order.id().equals(orderId))
                 .findFirst()
-                .orElseThrow(() -> new OrderNotFoundException(format("Order with id: %d does not exist", orderId)));
+                .orElseThrow(() -> new OrderNotFoundException(format("Order with id: '%d' does not exist", orderId)));
     }
 
     public Order rentFilms(final List<Film> films, final Integer price) {

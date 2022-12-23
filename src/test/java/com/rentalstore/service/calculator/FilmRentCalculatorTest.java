@@ -2,6 +2,7 @@ package com.rentalstore.service.calculator;
 
 import com.rentalstore.dto.request.FilmRentRequest;
 import com.rentalstore.dto.request.FilmReturnSummary;
+import com.rentalstore.exceptions.NegativeValueException;
 import com.rentalstore.exceptions.RentCalculationException;
 import com.rentalstore.model.Film;
 import com.rentalstore.model.Type;
@@ -67,10 +68,22 @@ class FilmRentCalculatorTest {
     }
 
     @Test
-    void shouldThrowException() {
+    void shouldThrowRentCalculationException() {
         var pairs = new ArrayList<ImmutablePair<Film, FilmRentRequest>>();
 
         Assertions.assertThatExceptionOfType(RentCalculationException.class)
+                .isThrownBy(() -> calculator.calculateRentPrice(pairs));
+    }
+
+    @Test
+    void shouldThrowNegativeValueException() {
+        var pairs = asList(
+                new ImmutablePair<>(new Film("Film 1", Type.NEW), new FilmRentRequest("Film 1", -1)),
+                new ImmutablePair<>(new Film("Film 2", Type.OLD), new FilmRentRequest("Film 2", 5)),
+                new ImmutablePair<>(new Film("Film 3", Type.REGULAR), new FilmRentRequest("Film 3", 4))
+        );
+
+        Assertions.assertThatExceptionOfType(NegativeValueException.class)
                 .isThrownBy(() -> calculator.calculateRentPrice(pairs));
     }
 

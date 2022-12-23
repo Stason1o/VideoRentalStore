@@ -95,7 +95,7 @@ public class RentService {
                         .containsAll(orderReturnRequest.films().stream().map(FilmReturnSummary::name).toList());
 
         if (!isValidOrder) {
-            throw new IncompleteOrderException(String.format("Order with id: %d is not complete", orderReturnRequest.orderId()));
+            throw new IncompleteOrderException(String.format("Order with id: '%d' is not complete", orderReturnRequest.orderId()));
         }
     }
 }

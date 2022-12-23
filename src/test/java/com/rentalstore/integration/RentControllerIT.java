@@ -11,8 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -178,7 +177,16 @@ public class RentControllerIT {
                                              }
                                         """)
                 )
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(
+                        content()
+                                .json("""
+                                        {
+                                            "message": "Order with id: '1' does not exist",
+                                            "code": 404
+                                        }
+                                        """)
+                );
     }
 
     @Test
@@ -251,6 +259,61 @@ public class RentControllerIT {
                                              }
                                         """, orderId))
                 )
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(
+                        content()
+                                .json(String.format("""
+                                        {
+                                            "message": "Order with id: '%d' is not complete",
+                                            "code": 400
+                                        }
+                                        """, orderId)
+                                )
+                );
+    }
+
+    @Test
+    void testReturnBadRequestWhenAmountOfDaysAreNegative() throws Exception {
+        var result = mockMvc.perform(
+                        post("/api/rent")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                             [
+                                                {
+                                                    "name": "The Green Mile",
+                                                    "amountOfDays": "-1"
+                                                },
+                                                {
+                                                    "name": "Interstellar",
+                                                    "amountOfDays": "5"
+                                                },
+                                                {
+                                                    "name": "Black Panther Wakanda Forever",
+                                                    "amountOfDays": "4"
+                                                },
+                                                {
+                                                    "name": "Harry Potter 4",
+                                                    "amountOfDays": "3"
+                                                },
+                                                {
+                                                    "name": "Guardians of the Galaxy: Holiday Special",
+                                                    "amountOfDays": "2"
+                                                },
+                                                {
+                                                    "name": "One Way",
+                                                    "amountOfDays": "3"
+                                                }
+                                            ]
+                                                                                
+                                        """)
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .json("""
+                                {
+                                    "message": "Requested days of use cannot be negative",
+                                    "code": 400
+                                }
+                                """));
     }
 }

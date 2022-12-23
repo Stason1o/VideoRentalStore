@@ -14,7 +14,7 @@
 
 6. I have not focused too much on request validation, it can be easily done by adding hibernate validator
    and marking with corresponding annotation.
-7. Exception Handling is done, but in a basic way. 
+7. Exception Handling is done in a user friendly way
 8. Also I decided to store data in memory, simulating tables.
 9. Totally skipped security, because of time limit.
 10. Covered with IT tests flow of renting films
@@ -34,12 +34,12 @@
 but I decided not to focus on this.
 
 Application exposes next endpoints:
-`GET:/api/films` - queries all films
-`POST:/api/films` - creates new film and adds to "db"
-`POST:/api/rent/price` - calculates price for selected films, Does not rents film.
-`POST:/api/rent/` - rents films
-`POST:/api/rent/return` - returns films, validating if entire order is returned
-`POST:/api/rent/return/old` - calculates price for exceeded days of rent
+`GET:/api/films` - queries all films <br/>
+`POST:/api/films` - creates new film and adds to "db"<br/>
+`POST:/api/rent/price` - calculates price for selected films, Does not rents film.<br/>
+`POST:/api/rent/` - rents films<br/>
+`POST:/api/rent/return` - returns films, validating if entire order is returned<br/>
+`POST:/api/rent/return/old` - calculates price for exceeded days of rent<br/>
 
 I have attached postman collection so you can try application.
 

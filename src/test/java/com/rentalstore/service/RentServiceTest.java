@@ -6,6 +6,7 @@ import com.rentalstore.dto.request.FilmReturnSummary;
 import com.rentalstore.dto.request.OrderReturnRequest;
 import com.rentalstore.dto.response.FilmRentResponse;
 import com.rentalstore.exceptions.IncompleteOrderException;
+import com.rentalstore.exceptions.OrderNotFoundException;
 import com.rentalstore.model.Film;
 import com.rentalstore.model.Order;
 import com.rentalstore.model.Type;
@@ -24,13 +25,13 @@ import java.time.LocalDate;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RentServiceTest {
 
     private final FilmRentCalculator filmRentCalculator = new FilmRentCalculator();
+
     @Mock
     private RentRepository rentRepository;
     @Mock
@@ -171,6 +172,20 @@ class RentServiceTest {
                 .thenReturn(order);
 
         Assertions.assertThatExceptionOfType(IncompleteOrderException.class)
+                .isThrownBy(() -> rentService.returnFilms(request));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenOrderNotFound() {
+        var orderId = 1;
+        var filmReturnSummaries = singletonList(new FilmReturnSummary("Film 1", 5));
+        var request = new OrderReturnRequest(orderId, filmReturnSummaries);
+
+        doThrow(OrderNotFoundException.class)
+                .when(rentRepository)
+                .getOrderById(orderId);
+
+        Assertions.assertThatExceptionOfType(OrderNotFoundException.class)
                 .isThrownBy(() -> rentService.returnFilms(request));
     }
 }

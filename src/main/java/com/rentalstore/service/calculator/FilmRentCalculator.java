@@ -3,6 +3,7 @@ package com.rentalstore.service.calculator;
 import com.rentalstore.dto.request.FilmRentRequest;
 import com.rentalstore.dto.request.FilmReturnRequestOld;
 import com.rentalstore.dto.request.FilmReturnSummary;
+import com.rentalstore.exceptions.NegativeValueException;
 import com.rentalstore.exceptions.RentCalculationException;
 import com.rentalstore.model.Film;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -28,6 +29,10 @@ public class FilmRentCalculator {
     }
 
     private static int basicCalculation(Integer exceededDaysOfUse, Integer defaultRentPrice) {
+        if (exceededDaysOfUse < 0) {
+            throw new NegativeValueException("Exceeded days of use cannot be negative");
+        }
+
         if (exceededDaysOfUse == 0) {
             return 0;
         }
@@ -62,7 +67,11 @@ public class FilmRentCalculator {
         var requestedDays = pair.right.amountOfDays();
         var defaultRentPrice = type.getPriceType().getPrice();
 
-        if (requestedDays <= 0) {
+        if (requestedDays < 0) {
+            throw new NegativeValueException("Requested days of use cannot be negative");
+        }
+
+        if (requestedDays == 0) {
             return 0;
         }
 

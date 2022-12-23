@@ -1,12 +1,12 @@
 package com.rentalstore.repository.impl;
 
+import com.rentalstore.exceptions.FilmExistsException;
 import com.rentalstore.model.Film;
 import com.rentalstore.repository.FilmRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.rentalstore.model.Type.*;
 
@@ -48,12 +48,6 @@ public class FilmRepositoryImpl implements FilmRepository {
         return INVENTORY;
     }
 
-    public Optional<Film> getFilm(final String name) {
-        return INVENTORY.stream()
-                .filter(film -> film.name().equalsIgnoreCase(name))
-                .findFirst();
-    }
-
     public List<Film> getFilms(final List<String> filmNames) {
         return filmNames.stream()
                 .flatMap(name -> INVENTORY.stream()
@@ -61,6 +55,9 @@ public class FilmRepositoryImpl implements FilmRepository {
     }
 
     public Film addFilm(Film film) {
+        if (INVENTORY.contains(film)) {
+            throw new FilmExistsException("Cannot add film to the library. Film already exists");
+        }
         INVENTORY.add(film);
         return film;
     }
